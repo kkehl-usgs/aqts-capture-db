@@ -28,10 +28,9 @@ ${LIQUIBASE_HOME}/liquibase \
 	--url=jdbc:postgresql://${AQTS_DATABASE_ADDRESS}:5432/${AQTS_DATABASE_NAME} \
 	--username=postgres \
 	--password=${POSTGRES_PASSWORD} \
-	--logLevel=debug\
+	--logLevel=info\
 	--liquibaseCatalogName=public \
 	--liquibaseSchemaName=public \
 	update \
 	-DAQTS_SCHEMA_OWNER_USERNAME=${AQTS_SCHEMA_OWNER_USERNAME} \
 	-DAQTS_SCHEMA_NAME=${AQTS_SCHEMA_NAME}
-
