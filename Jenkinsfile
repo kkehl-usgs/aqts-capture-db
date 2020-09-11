@@ -57,7 +57,7 @@ pipeline {
             chmod +x $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
           '''
-          
+
           sh '''
             export POSTGRES_PASSWORD=$(/usr/local/bin/aws ssm get-parameter --name "/NWCAPPG_SU_PW" --query "Parameter.Value"  --with-decryption --output text --region "us-west-2")
 
