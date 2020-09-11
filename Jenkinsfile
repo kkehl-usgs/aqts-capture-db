@@ -37,7 +37,6 @@ pipeline {
     stage('Run liquibase') {
       steps {
         script {
-          echo 'getting secrets'
 
           def secretsString = sh(script: '/usr/local/bin/aws ssm get-parameter --name "/aws/reference/secretsmanager/NWCAPTURE-DB-$DEPLOY_STAGE" --query "Parameter.Value" --with-decryption --output text --region "us-west-2"', returnStdout: true).trim()
           def secretsJson =  readJSON text: secretsString
@@ -49,7 +48,6 @@ pipeline {
           env.AQTS_SCHEMA_OWNER_USERNAME = secretsJson.SCHEMA_OWNER_USERNAME
           env.AQTS_SCHEMA_OWNER_PASSWORD = secretsJson.SCHEMA_OWNER_PASSWORD
 
-          echo 'running z1'
           sh '''
             export POSTGRES_PASSWORD=$(/usr/local/bin/aws ssm get-parameter --name "/NWCAPPG_SU_PW" --query "Parameter.Value"  --with-decryption --output text --region "us-west-2")
 
@@ -59,7 +57,7 @@ pipeline {
             chmod +x $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
           '''
-          echo 'running z2'
+          
           sh '''
             export POSTGRES_PASSWORD=$(/usr/local/bin/aws ssm get-parameter --name "/NWCAPPG_SU_PW" --query "Parameter.Value"  --with-decryption --output text --region "us-west-2")
 
@@ -69,7 +67,6 @@ pipeline {
             chmod +x $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
           '''
-          echo 'finished with liquibase'
         }
       }
     }
