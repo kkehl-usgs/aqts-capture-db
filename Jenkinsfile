@@ -22,7 +22,7 @@ pipeline {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']],
         doGenerateSubmoduleConfigurations: false,
         userRemoteConfigs: [[credentialsId: 'CIDA-Jenkins-GitHub',
-        url: 'https://github.com/kkehl-usgs/aqts-capture-db.git']]])
+        url: 'https://github.com/usgs/aqts-capture-db.git']]])
       }
     }
     stage('Download liquibase jar') {
@@ -56,10 +56,8 @@ pipeline {
 
             chmod +x $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
             chmod +x $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
-            chmod +x $WORKSPACE/liquibase/scripts/dbInit/z3_aws_s3_extension.sh
             $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
-            $WORKSPACE/liquibase/scripts/dbInit/z3_aws_s3_extension.sh
 
           '''
 
