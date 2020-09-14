@@ -1,7 +1,4 @@
 #!/bin/bash
-set -e
-set -o pipefail
-
 
 if [[ ${AQTS_DATABASE_ADDRESS} == *"amazon"* ]]; then
   psql -h ${AQTS_DATABASE_ADDRESS} -U ${AQTS_SCHEMA_OWNER_USERNAME} -d ${AQTS_DATABASE_NAME} -c "create extension if not exists aws_s3 cascade;"
@@ -11,6 +8,11 @@ else
   printf 'did not create aws_s3 extension because we are not using RDS'
   exit 125
 fi
+
+set -e
+set -o pipefail
+
+
 
 
 ${LIQUIBASE_HOME}/liquibase \
