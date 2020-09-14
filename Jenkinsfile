@@ -59,8 +59,8 @@ pipeline {
             $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
 
+            sudo -h ${AQTS_DATABASE_ADDRESS} -U ${AQTS_SCHEMA_OWNER_USERNAME} -d ${AQTS_DATABASE_NAME} bash -c "psql -c \"create extension if not exists aws_s3 cascade;\""
 
-            psql -h ${AQTS_DATABASE_ADDRESS} -U ${AQTS_SCHEMA_OWNER_USERNAME} -d ${AQTS_DATABASE_NAME} -c "create extension if not exists aws_s3 cascade"
           '''
 
         }
