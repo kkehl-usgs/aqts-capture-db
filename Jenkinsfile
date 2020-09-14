@@ -58,6 +58,8 @@ pipeline {
             chmod +x $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z1_postgres_liquibase.sh
             $WORKSPACE/liquibase/scripts/dbInit/z2_rc_liquibase.sh
+            $WORKSPACE/liquibase/scripts/dbInit/z3_aws_s3_extension.sh
+
           '''
 
         }
