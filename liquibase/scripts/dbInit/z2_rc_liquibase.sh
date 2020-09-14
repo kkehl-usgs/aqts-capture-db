@@ -2,6 +2,17 @@
 set -e
 set -o pipefail
 
+
+if [[ ${AQTS_DATABASE_ADDRESS} == *"amazon"* ]]; then
+  psql -h ${AQTS_DATABASE_ADDRESS} -U ${AQTS_SCHEMA_OWNER_USERNAME} -d ${AQTS_DATABASE_NAME} -c "create extension if not exists aws_s3 cascade;"
+  echo "aws_s3 extension created!"
+  exit 64
+else
+  echo "did not create aws_s3 extension because we are not using RDS"
+  exit 125
+fi
+
+
 ${LIQUIBASE_HOME}/liquibase \
 	--classpath=${LIQUIBASE_HOME}/lib/${JDBC_JAR} \
 	--changeLogFile=${LIQUIBASE_WORKSPACE}/capture/changeLog.yml \
@@ -16,12 +27,3 @@ ${LIQUIBASE_HOME}/liquibase \
 	-DAQTS_SCHEMA_OWNER_USERNAME=${AQTS_SCHEMA_OWNER_USERNAME} \
 	-DAQTS_SCHEMA_OWNER_PASSWORD=${AQTS_SCHEMA_OWNER_PASSWORD} \
 	-DAQTS_SCHEMA_NAME=${AQTS_SCHEMA_NAME}
-
-if [[ ${AQTS_DATABASE_ADDRESS} == *"amazon"* ]]; then
-  psql -h ${AQTS_DATABASE_ADDRESS} -U ${AQTS_SCHEMA_OWNER_USERNAME} -d ${AQTS_DATABASE_NAME} -c "create extension if not exists aws_s3 cascade;"
-  echo "aws_s3 extension created!"
-  exit 64
-else
-  echo "did not create aws_s3 extension because we are not using RDS"
-  exit 125
-fi
