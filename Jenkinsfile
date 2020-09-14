@@ -19,10 +19,10 @@ pipeline {
     }
     stage('Git Clone') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: '*/master']],
+        checkout([$class: 'GitSCM', branches: [[name: '*/aws_s3_jenkins']],
         doGenerateSubmoduleConfigurations: false,
         userRemoteConfigs: [[credentialsId: 'CIDA-Jenkins-GitHub',
-        url: 'https://github.com/usgs/aqts-capture-db.git']]])
+        url: 'https://github.com/kkehl-usgs/aqts-capture-db.git']]])
       }
     }
     stage('Download liquibase jar') {
