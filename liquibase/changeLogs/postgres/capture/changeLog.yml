@@ -19,7 +19,7 @@ databaseChangeLog:
         - rollback: drop schema if exists ${AQTS_SCHEMA_NAME} cascade;
 
   - changeSet:
-      author: kkehl
+      author: kkehl2
       id: "create.extension.${AQTS_SCHEMA_NAME}.aws_s3"
       preConditions:
         - onFail: MARK_RAN
